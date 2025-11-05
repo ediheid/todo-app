@@ -2,7 +2,8 @@
   --background-color-primary: #f8f8f8;
   --background-color-secondary: #ffffff;
   --text-color-primary: #333333;
+  --primary-yellow: #fde162;
 
-  --button-main-bg: #fde162;
+  --button-main-bg: var(--primary-yellow);
   --button-main-bg-hover: var(--background-color-secondary);
 }
