@@ -1,1 +1,10 @@
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@import "tailwindcss";
+@import "./variables.css";
+
+@layer base {
+  body {
+    @apply bg-[var(--background-color-primary)] text-[var(--text-color-primary)] text-base leading-relaxed;
+    font-family: "Roboto", sans-serif;
+  }
+}
