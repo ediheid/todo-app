@@ -23,3 +23,18 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## VS Code Setup for Tailwind
+
+To avoid warnings about unknown `@` rules like `@apply`, `@layer`, or `@tailwind`, add the following to your VS Code workspace settings:
+
+1. Open (or create) `.vscode/settings.json` in the project root.
+2. Add the following content:
+
+```json
+{
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore"
+}
+```
