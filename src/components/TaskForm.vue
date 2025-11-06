@@ -7,6 +7,8 @@ import SaveTaskButton from "./SaveTaskButton.vue";
 const taskStore = useTaskStore();
 const newTask = ref("");
 
+// todo: decide if I should keep emit in InpuitField OR call the store directly like in the ActionMenu componen??
+
 const addTask = () => {
   if (!newTask.value.trim()) return;
   taskStore.addTask(newTask.value.trim());

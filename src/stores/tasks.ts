@@ -37,7 +37,7 @@ export const useTaskStore = defineStore(
       }
     };
 
-    const removeTask = (id: string) => {
+    const deleteTask = (id: string) => {
       tasks.value = tasks.value.filter((t) => t.id !== id);
     };
 
@@ -46,7 +46,7 @@ export const useTaskStore = defineStore(
       addTask,
       toggleTaskCompletion,
       editTaskDescription,
-      removeTask,
+      deleteTask,
     };
   },
   {
