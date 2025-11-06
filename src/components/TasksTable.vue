@@ -5,8 +5,8 @@ import { computed } from "vue";
 const taskStore = useTaskStore();
 
 const groupedTasks = computed(() => [
-  { title: "To do", tasks: taskStore.tasks.filter((t) => !t.status) },
-  { title: "Done", tasks: taskStore.tasks.filter((t) => t.status) },
+  { title: "To do", tasks: taskStore.tasks.filter((t) => !t.isDone) },
+  { title: "Done", tasks: taskStore.tasks.filter((t) => t.isDone) },
 ]);
 </script>
 <template>

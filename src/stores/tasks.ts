@@ -10,7 +10,7 @@ export const useTaskStore = defineStore(
         id: string;
         date: number;
         description: string;
-        status: boolean;
+        isDone: boolean;
       }>
     >([]);
 
@@ -19,20 +19,20 @@ export const useTaskStore = defineStore(
         id: uuidv4(),
         date: Date.now(),
         description,
-        status: false,
+        isDone: false,
       });
     };
 
     const toggleTaskCompletion = (id: string) => {
       const task = tasks.value.find((t) => t.id === id);
       if (task) {
-        task.status = !task.status;
+        task.isDone = !task.isDone;
       }
     };
 
     const editTaskDescription = (id: string, newDescription: string) => {
       const task = tasks.value.find((t) => t.id === id);
-      if (task && !task.status) {
+      if (task && !task.isDone) {
         task.description = newDescription;
       }
     };
