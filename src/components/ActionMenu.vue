@@ -21,7 +21,11 @@ const deleteTask = (taskId: string) => {
 
 <template>
   <div class="flex gap-2">
-    <button @click="markDone(taskId)" class="cursor-pointer">done</button>
+    <button @click="markDone(taskId)" class="cursor-pointer">
+      {{
+        taskStore.tasks.find((t) => t.id === taskId)?.status ? "redo" : "done"
+      }}
+    </button>
     <button @click="editTask(taskId)" class="cursor-pointer">edit</button>
     <button @click="deleteTask(taskId)" class="cursor-pointer">delete</button>
   </div>
