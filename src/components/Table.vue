@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useTaskStore } from "@/stores/tasks";
 import ActionMenu from "./ActionMenu.vue";
+
+const taskStore = useTaskStore();
 </script>
 <template>
   <div class="overflow-x-auto mt-8">
@@ -25,13 +28,19 @@ import ActionMenu from "./ActionMenu.vue";
       </thead>
 
       <tbody class="bg-white divide-y divide-gray-200">
-        <tr class="hover:bg-gray-50">
-          <td class="px-6 py-4 border-r border-gray-200">2025-01-01</td>
+        <tr
+          v-for="task in taskStore.tasks"
+          :key="task.id"
+          class="hover:bg-gray-50"
+        >
+          <td class="px-6 py-4 border-r border-gray-200">
+            {{ task.date }}
+          </td>
           <td class="px-6 py-4 border-r border-gray-200 text-sm w-[300px]">
-            Deskl nvladXKVN l;dvfi nhkvcODAVXIn lokfcbn
+            {{ task.description }}
           </td>
           <td class="px-6 py-4 text-right">
-            <ActionMenu />
+            <ActionMenu :task="task" />
           </td>
         </tr>
       </tbody>
