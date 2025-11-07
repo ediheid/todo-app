@@ -4,6 +4,7 @@
   --background-color-tertiary: #f3f4f6;
   --text-color-primary: #333333;
   --text-color-secondary: #ffffff;
+  --text-color-urgent: var(--primary-red);
   --primary-yellow: #fde162;
   --primary-red: #f85064;
   --primary-green: #3ec976;

@@ -35,6 +35,20 @@ const saveEdit = () => {
 const cancelEdit = () => {
   editingTask.value = null;
 };
+
+const now = ref(Date.now());
+
+setInterval(() => {
+  now.value = Date.now();
+}, 2000);
+
+// ? How to handle when task description is edited? Do we reset isUrgent?
+const setTaskAsUrgent = computed(() =>
+  taskStore.tasks.map((task) => ({
+    ...task,
+    isTaskUrgent: !task.isDone && now.value - task.date > 1000,
+  }))
+);
 </script>
 <template>
   <div class="flex flex-col flex-1 min-h-0">
@@ -114,8 +128,18 @@ const cancelEdit = () => {
                   </button>
                 </div>
 
-                <div v-else>
+                <div v-else class="flex flex-wrap items-center">
                   {{ task.description }}
+                  <span
+                    class="inline-flex items-center gap-1 ml-2 text-[var(--text-color-urgent)] font-bold align-middle"
+                  >
+                    <img
+                      src="@/assets/icons/alert.svg"
+                      class="w-4 h-4 align-middle"
+                      alt="Urgent"
+                    />
+                    <span class="align-middle">Urgent</span>
+                  </span>
                 </div>
               </td>
 
@@ -132,7 +156,6 @@ const cancelEdit = () => {
       class="bg-[var(--background-color-tertiary)] px-6 py-2 flex-shrink-0 w-full border-t border-gray-200"
     >
       <span class="font-semibold"> Summary: </span>
-
       {{ taskStore.tasks.filter((t) => !t.isDone).length }} outstanding,
       {{ taskStore.tasks.filter((t) => t.isDone).length }} done
     </div>

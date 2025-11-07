@@ -11,6 +11,7 @@ export const useTaskStore = defineStore(
         date: number;
         description: string;
         isDone: boolean;
+        isTaskUrgent: boolean;
       }>
     >([]);
 
@@ -20,6 +21,7 @@ export const useTaskStore = defineStore(
         date: Date.now(),
         description,
         isDone: false,
+        isTaskUrgent: false,
       });
     };
 
