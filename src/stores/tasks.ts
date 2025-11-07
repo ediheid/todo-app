@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { v4 as uuidv4 } from "uuid";
+import { Category } from "./../enums/categories";
 
 export const useTaskStore = defineStore(
   "taskStore",
@@ -12,20 +13,22 @@ export const useTaskStore = defineStore(
         description: string;
         isDone: boolean;
         isTaskUrgent: boolean;
+        category: Category;
       }>
     >([]);
 
-    const addTask = (description: string) => {
+    const addTask = (description: string, category: Category) => {
       tasks.value.push({
         id: uuidv4(),
         date: Date.now(),
         description,
         isDone: false,
         isTaskUrgent: false,
+        category,
       });
     };
 
-    // ?? do I actually want to reset isTaskUrgent buy updating created date to false when toggling complete or editing?
+    // ?? do I actually want to reset isTaskUrgent buy updating created date to false when toggling complete or editing? // something I would ask UX designer about
 
     const toggleTaskCompletion = (id: string) => {
       const task = tasks.value.find((t) => t.id === id);
