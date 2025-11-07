@@ -19,7 +19,9 @@ const addTask = () => {
 };
 </script>
 <template>
-  <form class="w-full flex gap-2 p-4">
+  <form
+    class="w-full flex gap-2 p-4 mb-6 bg-[var(--background-color-secondary)]"
+  >
     <InputField v-model:newTask="newTask" class="flex-1" />
     <DropdownSelect
       v-model="selectedCategory"

@@ -41,12 +41,12 @@ To avoid warnings about unknown `@` rules like `@apply`, `@layer`, or `@tailwind
 
 # NOTES on challenge
 
-Given additional time, I would have explored the following use cases in more detail:
+# Future Improvements
 
-Providing user feedback when attempting to add a task with an empty description.
+Given additional time, I would have explored the following use cases in more detail - in the real world I would chat to UX Designer about many of these decisions
 
-Handling scenarios where a user edits a task and leaves the field empty (currently allowed).
-
-Considering whether toggling a task’s “isDone” status or editing it should reset the “isTaskUrgent” flag and/or update the created date. This would ideally be confirmed with the UX/product designer.
-
-I would also have dedicated time to writing comprehensive tests using Vitest, covering both edge cases and core functionality.
+- **User feedback for empty tasks:** Provide validation or feedback when a user attempts to add a task without a description.
+- **Editing behavior:** Prevent or handle scenarios where a user edits a task and leaves the description empty.
+- **Task status and urgency:** Evaluate whether toggling a task’s `isDone` status or editing it should reset the `isTaskUrgent` flag and/or update the created date.
+- **Category selection:** Determine whether to use a default category (e.g., "Holiday") or include a placeholder option in the category selector, disabling the save action until a category is selected?
+- **Comprehensive testing:** Implement thorough tests using Vitest to cover both core functionality and edge cases.

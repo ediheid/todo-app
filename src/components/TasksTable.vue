@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { useTaskStore } from "@/stores/tasks";
 import ActionMenu from "./ActionMenu.vue";
-import { computed, ref, watchEffect } from "vue";
-const taskStore = useTaskStore();
+import { computed, ref, watchEffect, defineProps } from "vue";
 
-const groupedTasks = computed(() => [
-  { title: "To do", tasks: taskStore.tasks.filter((t) => !t.isDone) },
-  { title: "Done", tasks: taskStore.tasks.filter((t) => t.isDone) },
-]);
+const taskStore = useTaskStore();
 
 interface EditingTask {
   id: string;
@@ -15,6 +11,26 @@ interface EditingTask {
 }
 
 const editingTask = ref<EditingTask | null>(null);
+
+const props = defineProps<{
+  category: string;
+  categoryLabel: string;
+}>();
+
+const groupedTasks = computed(() => [
+  {
+    title: "To do",
+    tasks: taskStore.tasks.filter(
+      (t) => !t.isDone && t.category === props.category
+    ),
+  },
+  {
+    title: "Done",
+    tasks: taskStore.tasks.filter(
+      (t) => t.isDone && t.category === props.category
+    ),
+  },
+]);
 
 const startEditing = (taskId: string) => {
   const task = taskStore.tasks.find((t) => t.id === taskId);
@@ -54,11 +70,15 @@ watchEffect(() => {
   });
 });
 </script>
+
 <template>
-  <div class="flex flex-col flex-1 min-h-0">
-    <div
-      class="flex-1 overflow-y-scroll min-h-0 max-h-[calc(100vh-300px)] always-scrollbar"
-    >
+  <div
+    class="flex flex-col flex-1 mb-6 p-6 bg-[var(--background-color-secondary)]"
+  >
+    <h2 class="text-xl font-semibold mb-2">
+      {{ props.categoryLabel }}
+    </h2>
+    <div class="flex-1 overflow-y-scroll min-h-0 max-h-[calc(100vh-300px)]">
       <table class="min-w-full table-auto divide-y divide-gray-200">
         <thead>
           <tr>
@@ -161,26 +181,17 @@ watchEffect(() => {
       class="bg-[var(--background-color-tertiary)] px-6 py-2 flex-shrink-0 w-full border-t border-gray-200"
     >
       <span class="font-semibold"> Summary: </span>
-      {{ taskStore.tasks.filter((t) => !t.isDone).length }} outstanding,
-      {{ taskStore.tasks.filter((t) => t.isDone).length }} done
+      {{
+        taskStore.tasks.filter(
+          (t) => !t.isDone && t.category === props.category
+        ).length
+      }}
+      outstanding,
+      {{
+        taskStore.tasks.filter((t) => t.isDone && t.category === props.category)
+          .length
+      }}
+      done
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Forces vertical scrollbar to always appear so user knows to scroll */
-.always-scrollbar::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 12px;
-}
-
-.always-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.always-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 6px;
-  border: 3px solid #f1f1f1;
-}
-</style>
