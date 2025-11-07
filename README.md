@@ -41,6 +41,9 @@ To avoid warnings about unknown `@` rules like `@apply`, `@layer`, or `@tailwind
 
 # NOTES on challenge
 
+This was a really fun challenge!
+I got a little carried away in some of the details 😅 and I could spend a lot more time getting even more carried away, so I'll submit it now with some extra notes below on what I would have continued with!
+
 # Future Improvements
 
 Given additional time, I would have explored the following use cases in more detail - in the real world I would chat to UX Designer about many of these decisions
