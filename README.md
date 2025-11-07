@@ -38,3 +38,15 @@ To avoid warnings about unknown `@` rules like `@apply`, `@layer`, or `@tailwind
   "less.lint.unknownAtRules": "ignore"
 }
 ```
+
+# NOTES on challenge
+
+Given additional time, I would have explored the following use cases in more detail:
+
+Providing user feedback when attempting to add a task with an empty description.
+
+Handling scenarios where a user edits a task and leaves the field empty (currently allowed).
+
+Considering whether toggling a task’s “isDone” status or editing it should reset the “isTaskUrgent” flag and/or update the created date. This would ideally be confirmed with the UX/product designer.
+
+I would also have dedicated time to writing comprehensive tests using Vitest, covering both edge cases and core functionality.
