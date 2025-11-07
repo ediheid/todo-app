@@ -9,7 +9,6 @@ import { Category, categories } from "../enums/categories";
 const taskStore = useTaskStore();
 const newTask = ref("");
 const selectedCategory = ref<Category>(Category.Holiday);
-// ?? Holiday as default Category? or add a placeholder option in the select and disable save unless user selects a category?
 
 const addTask = () => {
   if (!newTask.value.trim() || !selectedCategory.value) return;

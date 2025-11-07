@@ -2,6 +2,7 @@
 import { useTaskStore } from "@/stores/tasks";
 import ActionMenu from "./ActionMenu.vue";
 import { computed, ref, watchEffect, defineProps } from "vue";
+import { Category } from "@/enums/categories";
 
 const taskStore = useTaskStore();
 
@@ -10,13 +11,17 @@ interface EditingTask {
   description: string;
 }
 
-const editingTask = ref<EditingTask | null>(null);
-
+// todo: Look into tscongif so I can always use defineProps instead of props = defineProps
 const props = defineProps<{
-  category: string;
+  category: Category;
   categoryLabel: string;
 }>();
 
+// State
+const editingTask = ref<EditingTask | null>(null);
+const isDragOver = ref(false);
+
+// Group tasks by done/undone within this category
 const groupedTasks = computed(() => [
   {
     title: "To do",
@@ -32,6 +37,7 @@ const groupedTasks = computed(() => [
   },
 ]);
 
+// Editing handlers
 const startEditing = (taskId: string) => {
   const task = taskStore.tasks.find((t) => t.id === taskId);
   if (!task || task.isDone) return;
@@ -52,32 +58,57 @@ const cancelEdit = () => {
   editingTask.value = null;
 };
 
+// Urgent task handling
 const now = ref(Date.now());
-
 setInterval(() => {
   now.value = Date.now();
 }, 1000);
 
 watchEffect(() => {
   taskStore.tasks.forEach((task) => {
-    if (task.isDone && task.isTaskUrgent) {
-      task.isTaskUrgent = false;
-    }
-
-    if (!task.isDone && !task.isTaskUrgent && now.value - task.date >= 60_000) {
+    if (task.isDone && task.isTaskUrgent) task.isTaskUrgent = false;
+    if (!task.isDone && !task.isTaskUrgent && now.value - task.date >= 60_000)
       task.isTaskUrgent = true;
-    }
   });
 });
+
+// Drag-and-drop handlers
+const onDragStart = (event: DragEvent, taskId: string) => {
+  if (event.dataTransfer) {
+    event.dataTransfer.setData("text/plain", taskId);
+  }
+};
+
+const onDragOver = (event: DragEvent) => {
+  event.preventDefault();
+  isDragOver.value = true;
+};
+
+const onDrop = (event: DragEvent) => {
+  event.preventDefault();
+  if (event.dataTransfer) {
+    const taskId = event.dataTransfer.getData("text/plain");
+    if (taskId) {
+      taskStore.updateTaskCategory(taskId, props.category); // ✅ Properly typed now
+    }
+  }
+  isDragOver.value = false;
+};
+
+const onDragLeave = () => {
+  isDragOver.value = false;
+};
 </script>
 
 <template>
   <div
     class="flex flex-col flex-1 mb-6 p-6 bg-[var(--background-color-secondary)]"
+    @dragover="onDragOver"
+    @drop="onDrop"
+    @dragleave="onDragLeave"
+    :class="{ 'bg-gray-100': isDragOver }"
   >
-    <h2 class="text-xl font-semibold mb-2">
-      {{ props.categoryLabel }}
-    </h2>
+    <h2 class="text-xl font-semibold mb-2">{{ props.categoryLabel }}</h2>
     <div class="flex-1 overflow-y-scroll min-h-0 max-h-[calc(100vh-300px)]">
       <table class="min-w-full table-auto divide-y divide-gray-200">
         <thead>
@@ -112,6 +143,8 @@ watchEffect(() => {
               v-for="task in group.tasks"
               :key="task.id"
               class="hover:bg-gray-50"
+              draggable="true"
+              @dragstart="(event) => onDragStart(event, task.id)"
             >
               <td class="px-6 py-4 border-r border-gray-200">
                 {{
@@ -124,7 +157,6 @@ watchEffect(() => {
                   })
                 }}
               </td>
-
               <td class="px-6 py-4 border-r border-gray-200 text-sm w-[300px]">
                 <div
                   v-if="editingTask?.id === task.id"
@@ -136,7 +168,6 @@ watchEffect(() => {
                     @keyup.enter="saveEdit"
                     @blur="cancelEdit"
                   />
-
                   <button
                     @click="saveEdit"
                     @mousedown.prevent
@@ -151,7 +182,6 @@ watchEffect(() => {
                     Cancel
                   </button>
                 </div>
-
                 <div v-else class="flex flex-wrap items-center">
                   {{ task.description }}
                   <span
@@ -167,7 +197,6 @@ watchEffect(() => {
                   </span>
                 </div>
               </td>
-
               <td class="px-6 py-4 text-right">
                 <ActionMenu :taskId="task.id" @edit="startEditing" />
               </td>
@@ -176,7 +205,6 @@ watchEffect(() => {
         </tbody>
       </table>
     </div>
-
     <div
       class="bg-[var(--background-color-tertiary)] px-6 py-2 flex-shrink-0 w-full border-t border-gray-200"
     >

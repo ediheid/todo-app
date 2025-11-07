@@ -28,8 +28,6 @@ export const useTaskStore = defineStore(
       });
     };
 
-    // ?? do I actually want to reset isTaskUrgent buy updating created date to false when toggling complete or editing? // something I would ask UX designer about
-
     const toggleTaskCompletion = (id: string) => {
       const task = tasks.value.find((t) => t.id === id);
       if (!task) return;
@@ -52,6 +50,11 @@ export const useTaskStore = defineStore(
       }
     };
 
+    const updateTaskCategory = (id: string, newCategory: Category) => {
+      const task = tasks.value.find((t) => t.id === id);
+      if (task) task.category = newCategory;
+    };
+
     const deleteTask = (id: string) => {
       tasks.value = tasks.value.filter((t) => t.id !== id);
     };
@@ -62,6 +65,7 @@ export const useTaskStore = defineStore(
       toggleTaskCompletion,
       editTaskDescription,
       deleteTask,
+      updateTaskCategory,
     };
   },
   {
