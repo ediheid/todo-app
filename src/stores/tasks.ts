@@ -27,8 +27,14 @@ export const useTaskStore = defineStore(
 
     const toggleTaskCompletion = (id: string) => {
       const task = tasks.value.find((t) => t.id === id);
-      if (task) {
-        task.isDone = !task.isDone;
+      if (!task) return;
+      task.isDone = !task.isDone;
+
+      if (task.isDone) {
+        task.isTaskUrgent = false;
+      } else {
+        task.date = Date.now();
+        task.isTaskUrgent = false;
       }
     };
 
@@ -36,6 +42,8 @@ export const useTaskStore = defineStore(
       const task = tasks.value.find((t) => t.id === id);
       if (task && !task.isDone) {
         task.description = newDescription;
+        task.isTaskUrgent = false;
+        task.date = Date.now();
       }
     };
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTaskStore } from "@/stores/tasks";
 import ActionMenu from "./ActionMenu.vue";
-import { computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 const taskStore = useTaskStore();
 
 const groupedTasks = computed(() => [
@@ -40,15 +40,19 @@ const now = ref(Date.now());
 
 setInterval(() => {
   now.value = Date.now();
-}, 2000);
+}, 1000);
 
-// ? How to handle when task description is edited? Do we reset isUrgent?
-const setTaskAsUrgent = computed(() =>
-  taskStore.tasks.map((task) => ({
-    ...task,
-    isTaskUrgent: !task.isDone && now.value - task.date > 1000,
-  }))
-);
+watchEffect(() => {
+  taskStore.tasks.forEach((task) => {
+    if (task.isDone && task.isTaskUrgent) {
+      task.isTaskUrgent = false;
+    }
+
+    if (!task.isDone && !task.isTaskUrgent && now.value - task.date >= 60_000) {
+      task.isTaskUrgent = true;
+    }
+  });
+});
 </script>
 <template>
   <div class="flex flex-col flex-1 min-h-0">
@@ -131,6 +135,7 @@ const setTaskAsUrgent = computed(() =>
                 <div v-else class="flex flex-wrap items-center">
                   {{ task.description }}
                   <span
+                    v-if="!task.isDone && task.isTaskUrgent"
                     class="inline-flex items-center gap-1 ml-2 text-[var(--text-color-urgent)] font-bold align-middle"
                   >
                     <img
