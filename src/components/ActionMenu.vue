@@ -26,14 +26,38 @@ const deleteTask = () => {
 
 <template>
   <div class="flex gap-2">
-    <button @click="markTaskDoneOrRedo()" class="cursor-pointer">
-      {{
-        taskStore.tasks.find((t) => t.id === taskId)?.isDone ? "redo" : "done"
-      }}
+    <button
+      @click="markTaskDoneOrRedo()"
+      class="cursor-pointer flex items-center gap-1"
+    >
+      <img
+        v-if="taskStore.tasks.find((t) => t.id === taskId)?.isDone"
+        src="@/assets/icons/redo.svg"
+        alt="Redo Button "
+        class="w-4 h-4 text-gray-500"
+      />
+
+      <img
+        v-else
+        src="@/assets/icons/done.svg"
+        alt="Done Button"
+        class="w-4 h-4 text-gray-500"
+      />
     </button>
+
     <button v-if="!task?.isDone" @click="editTask()" class="cursor-pointer">
-      edit
+      <img
+        src="@/assets/icons/edit.svg"
+        alt="Edit Button"
+        class="w-4 h-4 text-gray-500"
+      />
     </button>
-    <button @click="deleteTask()" class="cursor-pointer">delete</button>
+    <button @click="deleteTask()" class="cursor-pointer">
+      <img
+        src="@/assets/icons/delete.svg"
+        alt="Delete Button"
+        class="w-4 h-4 text-gray-500"
+      />
+    </button>
   </div>
 </template>

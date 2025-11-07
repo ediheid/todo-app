@@ -50,4 +50,5 @@ Given additional time, I would have explored the following use cases in more det
 - **Task status and urgency:** Evaluate whether toggling a task’s `isDone` status or editing it should reset the `isTaskUrgent` flag and/or update the created date.
 - **Category selection:** Determine whether to use a default category (e.g., "Holiday") or include a placeholder option in the category selector, disabling the save action until a category is selected?
 - **Moving tasks between categories:** Drag and drop seemed like a good solution without having to think about the user flow too much, and I had implemented something like this very recently so could revisit that code :)
+- **Bigger cleanup and create more reusable components:**
 - **Comprehensive testing:** Implement thorough tests using Vitest to cover both core functionality and edge cases.
