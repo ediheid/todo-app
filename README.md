@@ -1,6 +1,4 @@
-# Coding challenge
-
-This template should help get you started quickly with the coding challenge. It was generated using [create-vue](https://github.com/vuejs/create-vue), plus extra configuration for [Tailwind CSS](https://tailwindcss.com/).
+This template was generated using [create-vue](https://github.com/vuejs/create-vue), plus extra configuration for [Tailwind CSS](https://tailwindcss.com/).
 
 ## Recommended IDE Setup
 
@@ -39,19 +37,19 @@ To avoid warnings about unknown `@` rules like `@apply`, `@layer`, or `@tailwind
 }
 ```
 
-# NOTES on challenge
+# NOTES
 
 This was a really fun challenge!
 I got a little carried away in some of the details 😅 and I could spend a lot more time getting even more carried away, so I'll submit it now with some extra notes below on what I would have continued with!
 
 # Future Improvements
 
-Given additional time, I would have explored the following use cases in more detail - in the real world I would chat to UX Designer about many of these decisions
+Explore the following:
 
 - **User feedback for empty tasks:** Provide validation or feedback when a user attempts to add a task without a description.
 - **Editing behavior:** Prevent or handle scenarios where a user edits a task and leaves the description empty.
 - **Task status and urgency:** Evaluate whether toggling a task’s `isDone` status or editing it should reset the `isTaskUrgent` flag and/or update the created date.
 - **Category selection:** Determine whether to use a default category (e.g., "Holiday") or include a placeholder option in the category selector, disabling the save action until a category is selected?
-- **Moving tasks between categories:** Drag and drop seemed like a good solution without having to think about the user flow too much, and I had implemented something like this very recently so could revisit that code :)
+- **Moving tasks between categories:** Drag and drop seemed like a good solution without having to think about the user flow too much
 - **Bigger cleanup and create more reusable components:**
 - **Comprehensive testing:** Implement thorough tests using Vitest to cover both core functionality and edge cases.
